@@ -1,15 +1,17 @@
 import { useContext } from "react"
 import AuthContext from "../Context/AuthContext"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
 const GoogleLogin = () => {
     const { GoogleUser } = useContext(AuthContext)
+    const location = useLocation()
+    const from = location.state?.from || "/";
     const Navigate = useNavigate()
     const GoogleHandel = ()=>{
         GoogleUser()
         .then(result=>{
             console.log(result.user);
-            Navigate('/')
+            Navigate(from)
         })
         .catch(error=>{
             console.log(error.message);

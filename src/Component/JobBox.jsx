@@ -1,6 +1,10 @@
 import { FaRegAddressBook } from "react-icons/fa";
+import { Link } from "react-router-dom";
 const JobBox = ({item}) => {
-    const {company_logo,category,location,title,jobType,status,responsibilities,salaryRange} = item
+const {_id,company_logo,category,location,title,jobType,status,responsibilities,salaryRange} = item
+    
+    
+
   return (
     <div className="mb-4">
         <div className="card mb-9 bg-base-100 shadow-sm">
@@ -26,7 +30,8 @@ const JobBox = ({item}) => {
                 <p>{responsibilities}</p>
                 <div className="flex gap-5 items-center mt-4">
                     <h2 className="text-xl font-bold">{salaryRange.min}/Hour</h2>
-                    <button className="btn bg-gray-400">Apply NOW</button>
+                    <Link to={`/job/${_id}`}  className="btn bg-gray-400">Apply NOW</Link>
+                   
                 </div>
                 <div className="mt-6">
                 <button className="btn btn-primary btn-block">Subscribe</button>

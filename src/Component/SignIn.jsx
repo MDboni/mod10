@@ -3,7 +3,7 @@ import Navbar from "../Layout/Navbar"
 import AuthContext from "../Context/AuthContext"
 import Lottie from "lottie-react";
 import loginLottoieanimation from "../assets/Latto/Animation - 1751800827616 (1).json"
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import GoogleLogin from "./GoogleLogin";
 
 
@@ -11,7 +11,10 @@ const SignIn = () => {
   const {signIn} = useContext(AuthContext)
   const [success,setSuccess] = useState(false)
   const[errorMessage,setErrorMessage] =useState('')
-  const Navigate = useNavigate()
+  const location = useLocation()
+  const from = location.state?.from || "/";
+  const navigate = useNavigate()
+  
 
     const LoginhandleForm = e=>{
         e.preventDefault()
@@ -24,7 +27,7 @@ const SignIn = () => {
             console.log(result.user); 
             setSuccess(true)
             e.target.reset()
-            Navigate('/')
+            navigate(from)
         })
         .catch(error => {
             console.log(error.code, error.message);
