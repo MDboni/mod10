@@ -4,6 +4,7 @@ import LattoImg from "../assets/Latto/Animation - 1751708350904 (1).json";
 import { useContext, useState } from "react";
 import AuthContext from "../Context/AuthContext";
 import { Link } from "react-router-dom";
+import GoogleLogin from "./GoogleLogin";
 
 const Register = () => {
 
@@ -101,6 +102,7 @@ const Register = () => {
                   <button type="submit" className="btn btn-neutral mt-4 w-full">
                     Register
                   </button>
+                  <GoogleLogin/>
                    {
                         success && <h2 className="text-green-600">Register Successfull!..</h2>
                     }

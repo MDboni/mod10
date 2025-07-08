@@ -4,6 +4,7 @@ import AuthContext from "../Context/AuthContext"
 import Lottie from "lottie-react";
 import loginLottoieanimation from "../assets/Latto/Animation - 1751800827616 (1).json"
 import { useNavigate } from "react-router-dom";
+import GoogleLogin from "./GoogleLogin";
 
 
 const SignIn = () => {
@@ -83,6 +84,7 @@ const SignIn = () => {
                   <button type="submit" className="btn btn-neutral mt-4 w-full">
                     Login
                   </button>
+                  <GoogleLogin/>
                     {
                         success && <h2 className="text-green-600">Register Successfull!..</h2>
                     }
