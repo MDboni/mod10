@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Navbar from "../Layout/Navbar";
 import { useEffect, useState } from "react";
 
@@ -33,7 +33,7 @@ const ApplyDetails = () => {
         <p className="text-xl font-semibold mt-4">Salary: {job.salaryRange?.min} / Hour</p>
 
         <div className="card-actions justify-end mt-6">
-          <button className="btn btn-primary">Apply Now</button>
+          <Link to={`/jobApply/${id}`} className="btn btn-primary">Apply Now</Link>
         </div>
       </div>
     </Navbar>

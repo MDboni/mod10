@@ -9,6 +9,8 @@ import AuthProvider from './Context/AuthProvider.jsx'
 import SignIn from './Component/SignIn.jsx'
 import ApplyDetails from './Component/ApplyDetails.jsx'
 import Private from './Private/Private.jsx'
+import JobApply from './Component/JobApply.jsx'
+import DashBoard from './Component/DashBoard.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -19,6 +21,8 @@ createRoot(document.getElementById('root')).render(
           <Route path='/signUp' element={<Register/>}/>
           <Route path='/signIn' element={<SignIn/>}/>
           <Route path='/job/:id' element={<Private><ApplyDetails/></Private>}/>
+          <Route path='/jobApply/:id' element={<Private><JobApply/></Private>}/>
+          <Route path='/deshboard' element={<Private><DashBoard/></Private>}/>
         </Routes>
       </AuthProvider>
     </BrowserRouter>

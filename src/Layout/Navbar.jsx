@@ -103,12 +103,8 @@ const Navbar = ({children}) => {
                     </ul>
                 </li>
                 <li className="relative group ml-3">
-                    <a className="cursor-pointer border border-dashed border-b hover:border-blue-500 px-4 py-2 rounded">Dashboard</a>
-                    <ul className="absolute hidden group-hover:block bg-base-100 p-2 rounded shadow w-40 z-10 top-full left-0">
-                    <li><a>Dash 1</a></li>
-                    <li><a>Dash 2</a></li>
-                    <li><a>Dash 3</a></li>
-                    </ul>
+                    <Link to={`/deshboard`} className="cursor-pointer border border-dashed border-b hover:border-blue-500 px-4 py-2 rounded">Dashboard</Link>
+                    
                 </li>
                 </ul>
 

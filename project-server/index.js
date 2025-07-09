@@ -24,6 +24,7 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
      const database = client.db("JobPOrtal").collection("JobCollect");
+     const JobApplicentCollection = client.db("JobPOrtal").collection("JobApplicent");
 
      app.get('/job',async (req,res)=>{
         const quary = database.find()
@@ -37,6 +38,32 @@ async function run() {
         const result = await database.findOne(quari)
         res.send(result)
      })
+
+    //  job applyer aplicent 
+    app.post('/jobApplicent', async (req,res)=>{
+      const applicent = req.body 
+      const result = await JobApplicentCollection.insertOne(applicent)
+      res.send(result)
+    })
+
+    app.get('/jobApplicent',async(req,res)=>{
+       const email = req.query.email 
+       const quary = { Applicent_email: email }
+       const result = await JobApplicentCollection.find(quary).toArray()
+       
+       for(const applpication of result){
+        console.log(applpication.job_id);
+        const quari1 = {_id: new ObjectId(applpication.job_id)}
+        const job = await database.findOne(quari1)
+        if(job){
+          applpication.title = job.title
+          applpication.company = job.company
+          applpication.location = job.location
+          applpication.company_logo = job.company_logo
+        }
+       }
+       res.send(result)
+    })
      
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
