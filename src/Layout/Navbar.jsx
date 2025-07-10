@@ -102,6 +102,9 @@ const Navbar = ({children}) => {
                     <li><a>Job 3</a></li>
                     </ul>
                 </li>
+                <li className="relative group">
+                    <Link to={`/addjob`} className="cursor-pointer px-4 py-2 rounded">Add Job</Link>
+                </li>        
                 <li className="relative group ml-3">
                     <Link to={`/deshboard`} className="cursor-pointer border border-dashed border-b hover:border-blue-500 px-4 py-2 rounded">Dashboard</Link>
                     
