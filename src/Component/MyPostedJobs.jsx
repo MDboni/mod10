@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react"
 import Navbar from "../Layout/Navbar"
 import useAuth from "../Hooks/UseAuth"
+import axios from "axios"
 
 const MyPostedJobs = () => {
     const [addjobs,setAddjobs] = useState([])
     const {user} = useAuth()
 
     useEffect(()=>{
-        fetch(`http://localhost:5000/job?email=${user.email}`)
-        .then(res => res.json())
-        .then( data => {
-            setAddjobs(data)
-        })
+        // fetch(`http://localhost:5000/job?email=${user.email}`)
+        // .then(res => res.json())
+        // .then( data => {
+        //     setAddjobs(data)
+        // })
+        axios.get(`http://localhost:5000/job?email=${user.email}`,{withCredentials:true})
+        .then(res => setAddjobs(res.data))
+        
     },[user?.email])
 
     const handleDelete = (id) => {
@@ -56,7 +60,7 @@ const MyPostedJobs = () => {
                           <td>{item.jobtype}</td>
                           <td>{item.hr_email}</td>
                           <td>{item.applicationDeadline}</td>
-                          <td><button onClick={() => handleDelete(item._id)} className="btn">x</button></td>
+                          <td><button onClick={() => handleDelete(item._id)} className="btn btn-ghost btn-xs"> ❌</button></td>
                        </tr>
                    
                       ))

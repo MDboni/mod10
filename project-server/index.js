@@ -7,9 +7,13 @@ const app = express()
 const port = process.env.PORT || 3000
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
-app.use(cors())
+
 app.use(express.json())
 app.use(cookieParser())
+app.use(cors({
+  origin: ['http://localhost:5173'],
+  credentials:true
+}))
 
 const uri = `mongodb+srv://${[process.env.DB_NAME]}:${process.env.DB_PASS}@cluster0.lum0bq6.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
  
@@ -36,7 +40,8 @@ async function run() {
         if (email) {
           query = { hr_email: email };
         }
-
+        console.log('cook', req.cookies);
+        
         const result = await database.find(query).toArray();
         res.send(result);
       });
@@ -61,7 +66,7 @@ async function run() {
         res.send(result);
       });
 
-    //  JWT REleted API
+    //  JWT REleted API..........................................................
 
     app.post('/jwt', async(req,res)=>{
        const user = req.body 
@@ -72,7 +77,7 @@ async function run() {
         secure:false,
         sameSite:'strict'
        })
-       .send({ token })
+       .send({ success:true })
     })
 
     //  job applyer aplicent 
@@ -91,6 +96,9 @@ async function run() {
     app.get('/jobApplicent',async(req,res)=>{
        const email = req.query.email 
        const quary = { Applicent_email: email }
+
+       console.log('cukk', req.cookies);
+       
        const result = await JobApplicentCollection.find(quary).toArray()
        
        for(const applpication of result){
