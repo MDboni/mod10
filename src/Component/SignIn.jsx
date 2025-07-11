@@ -5,6 +5,7 @@ import Lottie from "lottie-react";
 import loginLottoieanimation from "../assets/Latto/Animation - 1751800827616 (1).json"
 import { useLocation, useNavigate } from "react-router-dom";
 import GoogleLogin from "./GoogleLogin";
+import axios from "axios";
 
 
 const SignIn = () => {
@@ -24,7 +25,13 @@ const SignIn = () => {
         
         signIn(email,password)
         .then(result=>{
-            console.log(result.user); 
+            console.log(result.user.email); 
+            const user = {email : email}
+            axios.post('http://localhost:5000/jwt',user)
+            .then(data => {
+              console.log(data);
+              
+            })
             setSuccess(true)
             e.target.reset()
             navigate(from)

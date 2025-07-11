@@ -1,17 +1,44 @@
+import Swal from 'sweetalert2'
 import Navbar from '../Layout/Navbar'
+import { useNavigate } from 'react-router-dom'
+import useAuth from '../Hooks/UseAuth'
 
 const Addjob = () => {
+    const Navigate = useNavigate()
+    const {user} = useAuth()
     const HandelJob = e => {
         e.preventDefault()
         const formData = new FormData(e.target)
         const data = Object.fromEntries(formData.entries())
         const {min,max,currency, ...newJob} = data
         newJob.salaryRange = {min,max,currency}
+        newJob.description = newJob.description.split('\n')
+        newJob.requerments = newJob.requerments.split('\n')
+        newJob.responsibilities = newJob.responsibilities.split('\n')
         console.log(newJob);
-        
 
-        
-        
+        fetch('http://localhost:5000/job',{
+            method:"POST",
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newJob)
+        })
+        .then(res => res.json())
+        .then( data => {
+            console.log(data);
+            if(data.insertedId){
+                Swal.fire({
+                position: "top-center",
+                icon: "success",
+                title: "Your work has been saved",
+                showConfirmButton: false,
+                timer: 1500
+                });
+            }
+            Navigate('/mypostedjobs')
+            e.target.reset()
+        })
     }
   return (
     <Navbar>
@@ -113,12 +140,19 @@ const Addjob = () => {
               </label>
               <input type="text" name='hrname' className="input input-bordered w-full" placeholder="HR NAME" />
             </div>
+  {/* Application DeadLine */}
+            <div className="form-control w-full mt-4">
+              <label className="label">
+                <span className="label-text">Application DeadLine</span>
+              </label>
+              <input type="date"  name='applicationDeadline' className="input input-bordered w-full" placeholder="Application DeadLine" />
+            </div>
   {/* HR Email */}
             <div className="form-control w-full mt-4">
               <label className="label">
                 <span className="label-text">Hr Email</span>
               </label>
-              <input type="email" name='hremail' className="input input-bordered w-full" placeholder="Job HR Email" />
+              <input type='email' defaultValue={user?.email} name='hr_email' className="input input-bordered w-full" placeholder="Job HR Email" />
             </div>
   {/* Company Logo  */}
             <div className="form-control w-full mt-4">

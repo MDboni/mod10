@@ -12,6 +12,7 @@ import Private from './Private/Private.jsx'
 import JobApply from './Component/JobApply.jsx'
 import DashBoard from './Component/DashBoard.jsx'
 import Addjob from './Component/Addjob.jsx'
+import MyPostedJobs from './Component/MyPostedJobs.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -25,6 +26,7 @@ createRoot(document.getElementById('root')).render(
           <Route path='/job/:id' element={<Private><ApplyDetails/></Private>}/>
           <Route path='/jobApply/:id' element={<Private><JobApply/></Private>}/>
           <Route path='/deshboard' element={<Private><DashBoard/></Private>}/>
+          <Route path='/mypostedjobs' element={<Private><MyPostedJobs/></Private>}/>
         </Routes>
       </AuthProvider>
     </BrowserRouter>

@@ -86,7 +86,7 @@ const Navbar = ({children}) => {
                     <li><a>Home 3</a></li>
                     </ul>
                 </li>
-                <li className="relative group">
+                {/* <li className="relative group">
                     <a className="cursor-pointer px-4 py-2 rounded">Blog</a>
                     <ul className="absolute hidden group-hover:block bg-base-100 p-2 rounded shadow w-40 z-10 top-full left-0">
                     <li><a>Blog 1</a></li>
@@ -101,12 +101,16 @@ const Navbar = ({children}) => {
                     <li><a>Job 2</a></li>
                     <li><a>Job 3</a></li>
                     </ul>
-                </li>
+                </li> */}
                 <li className="relative group">
                     <Link to={`/addjob`} className="cursor-pointer px-4 py-2 rounded">Add Job</Link>
                 </li>        
                 <li className="relative group ml-3">
                     <Link to={`/deshboard`} className="cursor-pointer border border-dashed border-b hover:border-blue-500 px-4 py-2 rounded">Dashboard</Link>
+                    
+                </li>
+                <li className="relative group ml-3">
+                    <Link to={`/mypostedjobs`} className="cursor-pointer border border-dashed border-b hover:border-blue-500 px-4 py-2 rounded">My Posted Jobs</Link>
                     
                 </li>
                 </ul>
