@@ -25,13 +25,7 @@ const SignIn = () => {
         
         signIn(email,password)
         .then(result=>{
-            console.log(result.user.email); 
-            const user = {email : email}
-            axios.post('http://localhost:5000/jwt',user,{withCredentials:true})
-            .then(res => {
-              console.log(res.data);
-              
-            })
+            console.log(result.user);    
             setSuccess(true)
             e.target.reset()
             navigate(from)

@@ -15,6 +15,22 @@ app.use(cors({
   credentials:true
 }))
 
+// const verifyToken = (req,res,next) => {
+//   const token = req.cookies.token ;
+
+//   if(!token){
+//     return res.status(401).send({message:"Unauthorized: token middleware"})
+//   }
+
+//   jwt.verify(token . process.env.JWT_SECRET , (err,decoded)=>{
+//     if(err){
+//       return res.status(403).send({message: "Forbodden: Invalid token"})
+//     }
+//     req.user = decoded ;
+//     next()
+//   })
+// }
+
 const uri = `mongodb+srv://${[process.env.DB_NAME]}:${process.env.DB_PASS}@cluster0.lum0bq6.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
  
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -40,7 +56,6 @@ async function run() {
         if (email) {
           query = { hr_email: email };
         }
-        console.log('cook', req.cookies);
         
         const result = await database.find(query).toArray();
         res.send(result);
@@ -68,16 +83,24 @@ async function run() {
 
     //  JWT REleted API..........................................................
 
-    app.post('/jwt', async(req,res)=>{
-       const user = req.body 
-       const token = jwt.sign(user, process.env.JWT_SECRET ,{expiresIn: "1h"})
-       res
-       .cookie('token',token,{
+    app.post('/jwt',async(req,res)=>{
+      const user = req.body
+      const token = jwt.sign(user, process.env.JWT_SECRET , {expiresIn:'2h'})
+      res
+      .cookie('token',token, {
+        httpOnly:true ,
+        secure:false
+      })
+      .send({ success:true })
+    })
+    
+    app.post('/logout',(req,res)=>{
+      res.clearCookie('token',{
         httpOnly:true,
         secure:false,
-        sameSite:'strict'
-       })
-       .send({ success:true })
+        sameSite: 'lax'
+      })
+      res.send({success: true , message: "Loggout Successfully"})
     })
 
     //  job applyer aplicent 
@@ -96,9 +119,6 @@ async function run() {
     app.get('/jobApplicent',async(req,res)=>{
        const email = req.query.email 
        const quary = { Applicent_email: email }
-
-       console.log('cukk', req.cookies);
-       
        const result = await JobApplicentCollection.find(quary).toArray()
        
        for(const applpication of result){
