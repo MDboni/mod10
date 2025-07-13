@@ -3,18 +3,22 @@ import useAuth from "../Hooks/UseAuth";
 import Footer from "../Layout/Footer";
 import Navbar from "../Layout/Navbar";
 import Swal from "sweetalert2";
+import axios from "axios";
+import useBaseUrl from "../Hooks/useBaseUrl";
 
 const DashBoard = () => {
   const { user } = useAuth();
   const [jobs, setJobs] = useState([]);
+  const instance = useBaseUrl()
 
   useEffect(() => {
-    fetch(`http://localhost:5000/jobApplicent?email=${user.email}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setJobs(data);
-      });
-  }, [user.email]);
+    // axios.get(`http://localhost:5000/jobApplicent?email=${user.email}`,{withCredentials:true})
+    // .then(res => setJobs(res.data))
+
+    instance.get(`/jobApplicent?email=${user.email}`)
+    .then(res => setJobs(res.data))
+   
+  }, [user.email,instance]);
 
   const DeletHandel = (id) => {
     Swal.fire({

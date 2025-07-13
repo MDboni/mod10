@@ -15,21 +15,23 @@ app.use(cors({
   credentials:true
 }))
 
-// const verifyToken = (req,res,next) => {
-//   const token = req.cookies.token ;
 
-//   if(!token){
-//     return res.status(401).send({message:"Unauthorized: token middleware"})
-//   }
 
-//   jwt.verify(token . process.env.JWT_SECRET , (err,decoded)=>{
-//     if(err){
-//       return res.status(403).send({message: "Forbodden: Invalid token"})
-//     }
-//     req.user = decoded ;
-//     next()
-//   })
-// }
+const verifyToken = (req,res,next) =>{
+  const token = req.cookies.token ;
+  
+  if(!token){
+    return res.status(401).send({message:"Unauthorized: token middleware"})
+  }
+  jwt.verify(token , process.env.JWT_SECRET , (err,decoded) =>{
+     if(err){
+      return res.status(403).send({message: "Forbodden: Invalid token"})
+     }
+     req.user = decoded ;
+      next()
+  })
+ 
+}
 
 const uri = `mongodb+srv://${[process.env.DB_NAME]}:${process.env.DB_PASS}@cluster0.lum0bq6.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
  
@@ -88,17 +90,20 @@ async function run() {
       const token = jwt.sign(user, process.env.JWT_SECRET , {expiresIn:'2h'})
       res
       .cookie('token',token, {
-        httpOnly:true ,
-        secure:false
+        httpOnly:true,
+        secure:false,
+        sameSite: 'lax',
+        path: '/' 
       })
-      .send({ success:true })
+      .send({ success:true , message:"LoggIn Successfully"  })
     })
     
     app.post('/logout',(req,res)=>{
       res.clearCookie('token',{
         httpOnly:true,
         secure:false,
-        sameSite: 'lax'
+        sameSite: 'lax',
+        path: '/' 
       })
       res.send({success: true , message: "Loggout Successfully"})
     })
@@ -116,13 +121,18 @@ async function run() {
       // let(job.app)
     })
 
-    app.get('/jobApplicent',async(req,res)=>{
+    app.get('/jobApplicent',verifyToken,async(req,res)=>{
        const email = req.query.email 
+
+       if (req.user.email !== req.query.email) {
+         return res.status(403).send({ message: "Forbidden: Email mismatch" });
+        }
+
        const quary = { Applicent_email: email }
        const result = await JobApplicentCollection.find(quary).toArray()
        
        for(const applpication of result){
-        console.log(applpication.job_id);
+        // console.log(applpication.job_id);
         const quari1 = {_id: new ObjectId(applpication.job_id)}
         const job = await database.findOne(quari1)
         if(job){
