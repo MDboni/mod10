@@ -18,7 +18,7 @@ const useBaseUrl = () => {
       response => {
         return response;
       },
-      error => {
+      error => { 
         console.log('Error interceptor:', error);
 
         const status = error.response?.status;
